@@ -28,11 +28,11 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        @click="logout_user"
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2">Logout</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -51,5 +51,10 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    async logout_user() {
+      this.$router.push('/login');
+    },
+  },
 };
 </script>
