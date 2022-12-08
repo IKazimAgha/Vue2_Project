@@ -1,8 +1,9 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="values"
+    :items="leaves"
     :items-per-page="5"
+    :loading="loading"
     item-key="name"
     class="elevation-1"
     :footer-props="{
@@ -34,6 +35,9 @@
 export default {
   data() {
     return {
+      leaves: [],
+      loading: true,
+      options: {},
       headers: [
         {
           text: 'LEAVE TYPE',
@@ -41,7 +45,7 @@ export default {
         },
         {
           text: 'LEAVE STATUS',
-          value: 'leave_status',
+          value: 'leave_value',
         },
         {
           text: 'NATURE',
@@ -64,25 +68,31 @@ export default {
           value: 'action',
         },
       ],
-      values: [
-        {
-          leave_type: 'Casual Leave',
-          leave_status: 'APPROVED',
-          leave_nature: 'Regular',
-          start_date: 'Nov 25, 2022',
-          end_date: 'Nov 27, 2022',
-          assigned_to: '',
-        },
-        {
-          leave_type: 'Casual Leave',
-          leave_status: 'PENDING',
-          leave_nature: 'Regular',
-          start_date: 'Nov 25, 2022',
-          end_date: 'Nov 27, 2022',
-          assigned_to: '',
-        },
-      ],
+      // values: [
+      //   {
+      //     leave_type: 'Casual Leave',
+      //     leave_status: 'APPROVED',
+      //     leave_nature: 'Regular',
+      //     start_date: 'Nov 25, 2022',
+      //     end_date: 'Nov 27, 2022',
+      //     assigned_to: '',
+      //   },
+      //   {
+      //     leave_type: 'Casual Leave',
+      //     leave_status: 'PENDING',
+      //     leave_nature: 'Regular',
+      //     start_date: 'Nov 25, 2022',
+      //     end_date: 'Nov 27, 2022',
+      //     assigned_to: '',
+      //   },
+      // ],
     };
+  },
+  mounted() {
+    const leave = this.$store.state.leaves;
+    console.log({ leave });
+    this.leaves = leave;
+    this.loading = false;
   },
 };
 </script>
