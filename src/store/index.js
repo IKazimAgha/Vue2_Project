@@ -1,4 +1,4 @@
-import getAllLeaves from '@/helpers/api';
+import { getAllLeaves } from '@/helpers/api';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -12,14 +12,16 @@ export default new Vuex.Store({
   },
   mutations: {
     fetchLeaves(state, leaves) {
+      console.log('fetchLeaves', leaves);
       state.leaves = leaves;
     },
   },
   actions: {
     async getLeaves(store) {
       const leave = await getAllLeaves();
+      console.log({ leave });
       store.commit('fetchLeaves', leave);
-      return store.state.leaves;
+      return leave;
     },
   },
   modules: {

@@ -168,7 +168,8 @@ export default {
         start_date: this.date,
         end_date: this.date2,
         reason: this.leave_reason,
-        leave_status: 'Pending',
+        leave_value: 'Pending',
+        leave_nature: 'Regular',
         assigned_to: 'Ismaeel',
       };
       createLeave(leaveData);
