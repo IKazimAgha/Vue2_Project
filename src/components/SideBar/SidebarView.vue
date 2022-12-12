@@ -1,58 +1,123 @@
 <template>
-  <v-card>
-    <v-navigation-drawer
+<div>
+    <v-app-bar class="blue" dark>
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-toolbar-title>
+        <v-img
+          contain
+          lazy-src="https://syshcm.visionetsystems.com/Logo/systems.png"
+          max-height="50"
+          src="https://syshcm.visionetsystems.com/Logo/systems.png"
+        ></v-img>
+      </v-toolbar-title>
+      <v-btn icon @click="signOut">
+       <v-icon>mdi-export</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <div id="nav">
+      <v-navigation-drawer
       v-model="drawer"
-      :mini-variant.sync="mini"
-      permanent
+      absolute
+      temporary
     >
-      <v-list-item class="px-2">
-        <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
-        </v-list-item-avatar>
-
-        <v-list-item-title>John Leider</v-list-item-title>
-
-        <v-btn
-          icon
-          @click.stop="mini = !mini"
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text
+          --accent-4"
         >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-      </v-list-item>
+         <router-link to="/">
+              <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-home</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Dashboard</v-list-item-title>
+              </v-list-item>
 
-      <v-divider></v-divider>
+          </router-link>
 
-      <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+          <router-link to="/timesheet">
+              <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Timesheet Management</v-list-item-title>
+              </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          </router-link>
+
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Approvals</v-list-item-title>
+          </v-list-item>
+
+          <router-link to="/leave_page">
+              <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Leave Management</v-list-item-title>
+              </v-list-item>
+
+          </router-link>
+
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Expense Management</v-list-item-title>
+          </v-list-item>
+
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-  </v-card>
+
+    </div>
+
+</div>
+
 </template>
+
 <script>
+import firebase from 'firebase';
 
 export default {
-  data() {
-    return {
-      drawer: true,
-      items: [
-        { title: 'Home', icon: 'mdi-home-city' },
-        { title: 'My Account', icon: 'mdi-account' },
-        { title: 'Users', icon: 'mdi-account-group-outline' },
-      ],
-      mini: true,
-    };
+  name: 'SideBar',
+  data: () => ({
+    drawer: false,
+    group: null,
+  }),
+
+  methods: {
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({ name: 'login' });
+        });
+    },
   },
 };
+
 </script>
+
+<style scoped>
+.v-toolbar__title{
+  margin: auto;
+  font-weight: 600
+}
+.v-list-item-title{
+  font-size: large;
+}
+#nav a{
+    text-decoration: none;
+    color: none;
+ }
+</style>

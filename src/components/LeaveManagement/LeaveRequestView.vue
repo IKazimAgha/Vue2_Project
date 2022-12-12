@@ -1,7 +1,9 @@
 <template>
-  <v-card
+  <div>
+    <sidebar-view />
+    <v-card
     :loading="loading"
-    class="mx-auto my-12"
+    class="mx-6 my-12"
   >
     <template slot="progress">
       <v-progress-linear
@@ -10,7 +12,7 @@
         indeterminate
       ></v-progress-linear>
     </template>
-        <v-col class="card_col">
+        <v-col class="card_col col-12 flex-wrap">
             <leave-cards
                 v-for="types in leaveArray"
                 :key="types.id"
@@ -22,66 +24,73 @@
     <v-container class="input_container">
       <v-row>
         <v-col
-          cols="12"
-          sm="5"
-          class="px-0"
-        >
-         <v-menu
-        v-model="menu"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="date"
-            label="Start Date"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="date"
-          @input="menu = false"
-        ></v-date-picker>
-      </v-menu>
+                          cols="12"
+                          sm="6"
+                          lg="5"
+                          class="py-0"
+                        >
+                          <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="date"
+                                label="Start Date"
+                                append-icon="mdi-calendar"
+                                outlined
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="date"
+                              no-title
+                              scrollable
+                            >
+                            </v-date-picker>
+          </v-menu>
         </v-col>
-
         <v-col
-          cols="12"
-          sm="5"
-          class="px-0 ml-10"
-        >
-          <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="date2"
-            label="End Date"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="date2"
-          @input="menu2 = false"
-        ></v-date-picker>
-      </v-menu>
+                          cols="12"
+                          sm="6"
+                          lg="5"
+                          class="py-0"
+                        >
+                          <v-menu
+                            ref="menu"
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="date2"
+                                label="End Date"
+                                append-icon="mdi-calendar"
+                                outlined
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="date2"
+                              no-title
+                              scrollable
+                            >
+                            </v-date-picker>
+          </v-menu>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row class="mr-12">
           <v-textarea
             v-model="leave_reason"
             clearable
@@ -99,16 +108,19 @@
       </v-row>
     </v-container>
   </v-card>
+  </div>
 </template>
 
 <script>
 import { createLeave } from '@/helpers/api';
 import LeaveCards from './LeaveCards.vue';
+import SidebarView from '../SideBar/SidebarView.vue';
 // import CreateLeave from '../../helpers/api';
 
 export default {
   components: {
     LeaveCards,
+    SidebarView,
   },
   data: () => ({
     loading: false,
@@ -121,6 +133,8 @@ export default {
     // currentDate: (new Date()).toString(),
     menu: false,
     menu2: false,
+    startMenu: false,
+    endMenu: false,
     leaveArray: [
       {
         id: 1,
@@ -145,6 +159,11 @@ export default {
       {
         id: 5,
         name: 'Sick Leave',
+        remaining: '3',
+      },
+      {
+        id: 6,
+        name: 'Bereavement Leave',
         remaining: '3',
       },
     ],
