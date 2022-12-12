@@ -1,8 +1,9 @@
 <template>
   <v-card
     :loading="loading"
-    class="mx-5"
+    class="mx-5 my-5"
     max-width="274"
+    max-height="200"
     @click="$emit('created', {leaveType: leaves.name})"
   >
     <template slot="progress">
@@ -14,22 +15,43 @@
     </template>
     <v-card-title>{{leaves.name}}</v-card-title>
 
-    <v-divider class="mx-4"></v-divider>
-
-    <v-card-text>Remaining 3</v-card-text>
+    <v-card-text class="py-0">Remaining 3</v-card-text>
 
     <v-card-text>
-      <v-chip-group
-        v-model="selection"
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <v-chip>Remaining</v-chip>
-
-        <v-chip>Requested</v-chip>
-
-        <v-chip>Approved</v-chip>
-      </v-chip-group>
+      <v-progress-linear
+      background-color="orange"
+      color="green"
+      value="15"
+    ></v-progress-linear>
+      <div class="flex flex-wrap my-5">
+        <span>
+          <v-btn
+            class="ma-2"
+            x-small
+            fab
+            height="10px"
+            width="10px"
+            color="white"></v-btn>
+          Remaining </span>
+        <span>
+          <v-btn
+            class="ma-2"
+            x-small
+            height="10px"
+            width="10px"
+            fab
+            color="orange"></v-btn>
+          Requested </span>
+        <span>
+          <v-btn
+            class="ma-2"
+            x-small
+            height="10px"
+            width="10px"
+            fab
+            color="green"></v-btn>
+          Approved </span>
+      </div>
     </v-card-text>
   </v-card>
 </template>

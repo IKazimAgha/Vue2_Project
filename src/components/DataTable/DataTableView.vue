@@ -46,6 +46,8 @@
     </v-data-table>
 </template>
 <script>
+import { deleteLeave } from '@/helpers/api';
+
 export default {
   data() {
     return {
@@ -86,7 +88,10 @@ export default {
   },
   methods: {
     delete_item(value) {
-      console.log({ value });
+      deleteLeave(value.id);
+      const result = this.leaves.filter((item) => item.id !== value.id);
+      this.leaves = result;
+      console.log('delete leaves', result);
     },
     getColor(leave) {
       if (leave === 'Approved') return 'green';
@@ -97,7 +102,6 @@ export default {
   },
   created() {
     const leave = this.$store.state.leaves;
-    console.log({ leave });
     this.leaves = leave;
     this.loading = false;
   },

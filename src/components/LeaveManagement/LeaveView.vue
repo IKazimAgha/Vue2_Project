@@ -1,9 +1,9 @@
 <template>
-    <v-container>
-        <!-- <div>
-                <nav-bar-view />
-        </div> -->
+    <v-div>
         <div>
+          <sidebar-view />
+        </div>
+        <v-container fluid>
             <v-col>
                 <v-col>
                     <v-row class="justify-space-between">
@@ -12,9 +12,21 @@
                             <p> Leave Management </p>
                         </div>
                         <div>
-                            <v-btn> Filters </v-btn>
+                            <v-btn
+                              elevation="1"
+                              @click="showFilter = !showFilter"
+                              text
+                            >
+                              Filter
+                              <v-icon right>
+                                mdi-filter
+                              </v-icon>
+                            </v-btn>
                         </div>
                     </v-row>
+                </v-col>
+                <v-col v-if="showFilter">
+                  <leave-filter />
                 </v-col>
                 <v-col class="pa-0">
                     <data-table-view />
@@ -29,25 +41,35 @@
                     elevation="7"
                     fab
                     @click="leaveRequest"
-                ></v-btn>
-                </div>
+                >
+                  <v-icon color="white">
+                    mdi-edit
+                  </v-icon>
+                </v-btn>
+              </div>
             </v-col>
-        </div>
-    </v-container>
+        </v-container>
+    </v-div>
 </template>
 
 <script>
 import DataTableView from '../DataTable/DataTableView.vue';
+import SidebarView from '../SideBar/SidebarView.vue';
+import LeaveFilter from './LeaveFilter.vue';
 
 export default {
   components: {
     DataTableView,
-    // NavBarView,
-    // SidebarView,
+    SidebarView,
+    LeaveFilter,
+  },
+  data() {
+    return {
+      showFilter: false,
+    };
   },
   async mounted() {
     // const leaves = await getAllLeaves();
-    // console.log({ leaves });
   },
   created() {
     this.$store.dispatch('getLeaves');
