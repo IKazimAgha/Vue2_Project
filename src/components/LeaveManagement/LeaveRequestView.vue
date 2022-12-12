@@ -158,11 +158,9 @@ export default {
       setTimeout(() => this.loading = false, 2000);
     },
     handleLeaveType(leaveType) {
-      console.log(leaveType.leaveType);
       this.leaveType = leaveType.leaveType;
     },
     async submitLeave() {
-      console.log(this.leaveType, this.date2, this.date, this.leave_reason);
       const leaveData = {
         leave_type: this.leaveType,
         start_date: this.date,

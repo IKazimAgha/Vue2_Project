@@ -60,7 +60,6 @@ export default {
       try {
         const user = await firebase
           .auth().createUserWithEmailAndPassword(this.email, this.password);
-        console.log({ user });
         if (user) {
           this.$router.push('/');
         }

@@ -47,7 +47,6 @@ export default {
   },
   async mounted() {
     // const leaves = await getAllLeaves();
-    // console.log({ leaves });
   },
   created() {
     this.$store.dispatch('getLeaves');
