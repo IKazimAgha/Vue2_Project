@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import LeaveView from '../components/LeaveManagement/LeaveView.vue';
+import LeaveRequest from '../components/LeaveManagement/LeaveRequestView.vue';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/leave_page',
     name: 'leavepage',
     component: LeaveView,
+  },
+  {
+    path: '/leave_request',
+    name: 'leaverequest',
+    component: LeaveRequest,
   },
   {
     path: '/about',

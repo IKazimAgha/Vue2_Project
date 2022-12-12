@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
+import moment from 'moment';
 import firebase from 'firebase/app';
 import App from './App.vue';
 import router from './router';
@@ -7,7 +8,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 
 Vue.prototype.$axios = axios;
-
+Vue.prototype.moment = moment;
 Vue.config.productionTip = false;
 
 const firebaseConfig = {

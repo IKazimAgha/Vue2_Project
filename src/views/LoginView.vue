@@ -62,7 +62,7 @@ export default {
           .auth().signInWithEmailAndPassword(this.email, this.password);
         console.log({ user });
         if (user) {
-          this.$router.push('/');
+          this.$router.push('/leave_page');
         }
       } catch (error) {
         console.log({ error });

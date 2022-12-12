@@ -1,8 +1,9 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="values"
+    :items="leaves"
     :items-per-page="5"
+    :loading="loading"
     item-key="name"
     class="elevation-1"
     :footer-props="{
@@ -13,6 +14,20 @@
       nextIcon: 'mdi-plus'
     }"
   >
+  <template v-slot:[`item.leave_value`]="{ item }">
+        <v-chip
+          :color="getColor(item.leave_value)"
+          dark
+        >
+          {{ item.leave_value }}
+        </v-chip>
+  </template>
+  <template v-slot:[`item.start_date`]="{ item }">
+    <span>{{moment(item.start_date).format('MMM DD, YYYY')}}</span>
+  </template>
+  <template v-slot:[`item.end_date`]="{ item }">
+    <span>{{moment(item.end_date).format('MMM DD, YYYY')}}</span>
+  </template>
   <template v-slot:[`item.action`]="{ item }">
       <v-icon
         small
@@ -23,7 +38,7 @@
       </v-icon>
       <v-icon
         small
-        @click="deleteItem(item)"
+        @click="delete_item(item)"
       >
         mdi-delete
       </v-icon>
@@ -34,6 +49,9 @@
 export default {
   data() {
     return {
+      leaves: [],
+      loading: true,
+      options: {},
       headers: [
         {
           text: 'LEAVE TYPE',
@@ -41,7 +59,7 @@ export default {
         },
         {
           text: 'LEAVE STATUS',
-          value: 'leave_status',
+          value: 'leave_value',
         },
         {
           text: 'NATURE',
@@ -57,32 +75,31 @@ export default {
         },
         {
           text: 'ASSIGNED TO',
-          value: 'assiged_to',
+          value: 'assigned_to',
         },
         {
           text: 'ACTIONS',
           value: 'action',
         },
       ],
-      values: [
-        {
-          leave_type: 'Casual Leave',
-          leave_status: 'APPROVED',
-          leave_nature: 'Regular',
-          start_date: 'Nov 25, 2022',
-          end_date: 'Nov 27, 2022',
-          assigned_to: '',
-        },
-        {
-          leave_type: 'Casual Leave',
-          leave_status: 'PENDING',
-          leave_nature: 'Regular',
-          start_date: 'Nov 25, 2022',
-          end_date: 'Nov 27, 2022',
-          assigned_to: '',
-        },
-      ],
     };
+  },
+  methods: {
+    delete_item(value) {
+      console.log({ value });
+    },
+    getColor(leave) {
+      if (leave === 'Approved') return 'green';
+      if (leave === 'Pending') return 'orange';
+      if (leave === 'Rejected') return 'red';
+      return 'green';
+    },
+  },
+  created() {
+    const leave = this.$store.state.leaves;
+    console.log({ leave });
+    this.leaves = leave;
+    this.loading = false;
   },
 };
 </script>
