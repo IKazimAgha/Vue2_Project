@@ -1,5 +1,6 @@
 <template>
   <div id="login_container">
+    <v-card class="card_height">
       <v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
@@ -10,6 +11,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        class="form_style"
       >
         <v-text-field
         v-model="email"
@@ -41,6 +43,7 @@
              <router-link to="/register">click here</router-link> to create one
         </p>
     </v-form>
+    </v-card>
   </div>
 </template>
 
@@ -75,8 +78,18 @@ export default {
   #login_container{
       display: grid;
       justify-content: center;
+      background-image: url(https://syshcm.systemsltd.com/EssPlus/login-bg.e69a8f472a164296cfd3.jpg);
+      height: 100%;
   }
   .footer_text {
       margin-top: 20px;
+  }
+  .card_height{
+    height: 70%;
+    padding: 5%;
+    margin-top: 20%;
+  }
+  .form_style{
+    /* margin: 20%; */
   }
 </style>
