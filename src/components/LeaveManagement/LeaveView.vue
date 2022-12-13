@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import store from '@/store';
 import DataTableView from '../DataTable/DataTableView.vue';
 import SidebarView from '../SideBar/SidebarView.vue';
 import LeaveFilter from './LeaveFilter.vue';
@@ -66,13 +67,15 @@ export default {
   data() {
     return {
       showFilter: false,
+      users: {},
     };
   },
   async mounted() {
     // const leaves = await getAllLeaves();
   },
   created() {
-    this.$store.dispatch('getLeaves');
+    const user = store.state.users;
+    this.$store.dispatch('getLeaves', user?.email);
   },
   methods: {
     leaveRequest() {

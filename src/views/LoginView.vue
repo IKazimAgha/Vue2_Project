@@ -1,6 +1,6 @@
 <template>
   <div id="login_container">
-    <v-card class="card_height">
+    <v-card class="card_height" max-width="400">
       <v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
@@ -64,6 +64,12 @@ export default {
         const user = await firebase
           .auth().signInWithEmailAndPassword(this.email, this.password);
         if (user) {
+          const userData = {
+            email: this.email,
+            password: this.password,
+            access_token: user.user.uid,
+          };
+          this.$store.dispatch('addUsers', userData);
           this.$router.push('/leave_page');
         }
       } catch (error) {
@@ -88,6 +94,7 @@ export default {
     height: 70%;
     padding: 5%;
     margin-top: 20%;
+    width: 400px
   }
   .form_style{
     /* margin: 20%; */

@@ -140,9 +140,9 @@
 
 <script>
 import { createLeave } from '@/helpers/api';
+import store from '@/store';
 import LeaveCards from './LeaveCards.vue';
 import SidebarView from '../SideBar/SidebarView.vue';
-// import CreateLeave from '../../helpers/api';
 
 export default {
   components: {
@@ -163,6 +163,7 @@ export default {
     menu2: false,
     startMenu: false,
     endMenu: false,
+    users: {},
     leaveArray: [
       {
         id: 1,
@@ -197,6 +198,11 @@ export default {
     ],
   }),
 
+  async mounted() {
+    const user = await store.state.users;
+    console.log({ user });
+    this.users = user;
+  },
   methods: {
     reserve() {
       this.loading = true;
@@ -216,9 +222,11 @@ export default {
         reason: this.leave_reason,
         leave_value: 'Pending',
         leave_nature: 'Regular',
+        users: this.users?.email,
         assigned_to: 'Ismaeel',
       };
       createLeave(leaveData);
+      this.$router.push('/leave_page');
     },
   },
 };

@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     leaves: [],
+    users: {},
   },
   getters: {
   },
@@ -14,12 +15,19 @@ export default new Vuex.Store({
     fetchLeaves(state, leaves) {
       state.leaves = leaves;
     },
+    addUser(state, users) {
+      state.users = users;
+    },
   },
   actions: {
-    async getLeaves(store) {
-      const leave = await getAllLeaves();
+    async getLeaves(store, email) {
+      const leave = await getAllLeaves(email);
       store.commit('fetchLeaves', leave);
       return leave;
+    },
+    async addUsers(store, data) {
+      store.commit('addUser', data);
+      return data;
     },
   },
   modules: {

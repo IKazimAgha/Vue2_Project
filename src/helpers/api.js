@@ -2,8 +2,13 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3000';
 
-export const getAllLeaves = async () => {
-  const result = await axios.get(`${BASE_URL}/leaves`);
+export const getAllLeaves = async (email) => {
+  const result = await axios.get(`${BASE_URL}/leaves`, email);
+  return result.data;
+};
+
+export const createUser = async (users) => {
+  const result = await axios.post(`${BASE_URL}/users`, users);
   return result.data;
 };
 
