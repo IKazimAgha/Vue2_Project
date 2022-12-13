@@ -32,9 +32,9 @@
       <v-icon
         small
         class="mr-2"
-        @click="editItem(item)"
+        @click="displayLeaveInfo(item)"
       >
-        mdi-pencil
+        mdi-arrow-expand-all
       </v-icon>
       <v-icon
         small

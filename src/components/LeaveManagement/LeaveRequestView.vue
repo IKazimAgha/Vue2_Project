@@ -12,7 +12,7 @@
         indeterminate
       ></v-progress-linear>
     </template>
-        <v-col class="card_col col-12 flex-wrap">
+        <v-col v-if="showCards" class="card_col col-12 flex-wrap">
             <leave-cards
                 v-for="types in leaveArray"
                 :key="types.id"
@@ -20,7 +20,34 @@
                 @created="handleLeaveType"
             />
         </v-col>
-
+    <v-row class="top-bar-style" v-if="!showCards">
+      <v-col cols="2">
+        {{this.leaveType}}
+      </v-col>
+      <br />
+      <v-col cols="2">
+        Total: 3
+      </v-col>
+      <br />
+      <v-col cols="2">
+        Approvd 0
+      </v-col>
+      <br />
+      <v-col cols="2">
+        Requested 0
+      </v-col>
+      <br />
+      <v-col cols="2">
+        Remaining 0
+      </v-col>
+      <v-col cols="auto">
+        <v-btn @click="showCards = !showCards" rounded>
+          <v-icon>
+            mdi-close
+          </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-container class="input_container">
       <v-row>
         <v-col
@@ -113,9 +140,9 @@
 
 <script>
 import { createLeave } from '@/helpers/api';
+import store from '@/store';
 import LeaveCards from './LeaveCards.vue';
 import SidebarView from '../SideBar/SidebarView.vue';
-// import CreateLeave from '../../helpers/api';
 
 export default {
   components: {
@@ -125,6 +152,8 @@ export default {
   data: () => ({
     loading: false,
     leaveType: '',
+    leave_reason: '',
+    showCards: true,
     selection: 1,
     date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000))
       .toISOString().substr(0, 10),
@@ -135,6 +164,7 @@ export default {
     menu2: false,
     startMenu: false,
     endMenu: false,
+    users: {},
     leaveArray: [
       {
         id: 1,
@@ -169,6 +199,11 @@ export default {
     ],
   }),
 
+  async mounted() {
+    const user = await store.state.users;
+    console.log({ user });
+    this.users = user;
+  },
   methods: {
     reserve() {
       this.loading = true;
@@ -178,6 +213,7 @@ export default {
     },
     handleLeaveType(leaveType) {
       this.leaveType = leaveType.leaveType;
+      this.showCards = false;
     },
     async submitLeave() {
       const leaveData = {
@@ -187,9 +223,12 @@ export default {
         reason: this.leave_reason,
         leave_value: 'Pending',
         leave_nature: 'Regular',
+        users: this.users?.email,
         assigned_to: 'Ismaeel',
       };
+      this.$store.dispatch('addLeaves', leaveData);
       createLeave(leaveData);
+      this.$router.push('/leave_page');
     },
   },
 };
@@ -210,5 +249,10 @@ export default {
     margin: 20px 20px;
     width: 100%;
     max-width: inherit;
+}
+.top-bar-style{
+  background: #f9fbff;
+  padding: 0px 20px;
+  margin: 20px 20px;
 }
 </style>

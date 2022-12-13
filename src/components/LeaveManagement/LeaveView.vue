@@ -1,5 +1,5 @@
 <template>
-    <v-div>
+    <div>
         <div>
           <sidebar-view />
         </div>
@@ -35,8 +35,6 @@
             <v-col class="fab_button">
                 <div class="text-center">
                   <v-btn
-                    v-bind="attrs"
-                    v-on="on"
                     color="primary"
                     elevation="7"
                     fab
@@ -49,10 +47,11 @@
               </div>
             </v-col>
         </v-container>
-    </v-div>
+    </div>
 </template>
 
 <script>
+import store from '@/store';
 import DataTableView from '../DataTable/DataTableView.vue';
 import SidebarView from '../SideBar/SidebarView.vue';
 import LeaveFilter from './LeaveFilter.vue';
@@ -66,13 +65,15 @@ export default {
   data() {
     return {
       showFilter: false,
+      users: {},
     };
   },
   async mounted() {
     // const leaves = await getAllLeaves();
   },
   created() {
-    this.$store.dispatch('getLeaves');
+    const user = store.state.users;
+    this.$store.dispatch('getLeaves', user?.email);
   },
   methods: {
     leaveRequest() {
