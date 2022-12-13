@@ -9,8 +9,6 @@
         />
       <v-form
         ref="form"
-        v-model="valid"
-        lazy-validation
         class="form_style"
       >
         <v-text-field
@@ -56,6 +54,7 @@ export default {
     return {
       email: '',
       password: '',
+      show1: false,
     };
   },
   methods: {
@@ -69,6 +68,7 @@ export default {
             password: this.password,
             access_token: user.user.uid,
           };
+          await sessionStorage.setItem('email', this.email);
           this.$store.dispatch('addUsers', userData);
           this.$router.push('/leave_page');
         }

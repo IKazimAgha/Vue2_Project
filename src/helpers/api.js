@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:3000';
 
 export const getAllLeaves = async (email) => {
-  const result = await axios.get(`${BASE_URL}/leaves`, email);
+  const result = await axios.get(`${BASE_URL}/leaves/${email}`);
   return result.data;
 };
 

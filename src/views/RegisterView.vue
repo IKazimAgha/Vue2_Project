@@ -68,6 +68,7 @@ export default {
             password: this.password,
             access_token: user.user.uid,
           };
+          await sessionStorage.setItem('email', this.email);
           await createUser(userData);
           this.$store.dispatch('addUsers', userData);
           this.$router.push('/leave_page');

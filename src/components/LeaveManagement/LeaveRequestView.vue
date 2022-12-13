@@ -152,6 +152,7 @@ export default {
   data: () => ({
     loading: false,
     leaveType: '',
+    leave_reason: '',
     showCards: true,
     selection: 1,
     date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000))
@@ -225,6 +226,7 @@ export default {
         users: this.users?.email,
         assigned_to: 'Ismaeel',
       };
+      this.$store.dispatch('addLeaves', leaveData);
       createLeave(leaveData);
       this.$router.push('/leave_page');
     },

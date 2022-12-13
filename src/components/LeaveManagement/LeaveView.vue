@@ -1,5 +1,5 @@
 <template>
-    <v-div>
+    <div>
         <div>
           <sidebar-view />
         </div>
@@ -35,8 +35,6 @@
             <v-col class="fab_button">
                 <div class="text-center">
                   <v-btn
-                    v-bind="attrs"
-                    v-on="on"
                     color="primary"
                     elevation="7"
                     fab
@@ -49,7 +47,7 @@
               </div>
             </v-col>
         </v-container>
-    </v-div>
+    </div>
 </template>
 
 <script>
