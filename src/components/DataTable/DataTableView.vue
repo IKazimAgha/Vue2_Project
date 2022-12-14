@@ -1,10 +1,12 @@
 <template>
-  <v-data-table
+  <div v-if="initialize">
+    <v-data-table
     :headers="headers"
     :items="leaves"
     :items-per-page="5"
     :loading="loading"
     item-key="name"
+    v-if="!!leaves"
     class="elevation-1"
     :footer-props="{
       showFirstLastPage: true,
@@ -44,6 +46,7 @@
       </v-icon>
     </template>
     </v-data-table>
+  </div>
 </template>
 <script>
 import { deleteLeave } from '@/helpers/api';
@@ -53,6 +56,7 @@ export default {
     return {
       leaves: [],
       loading: true,
+      initialize: false,
       options: {},
       headers: [
         {
@@ -104,6 +108,7 @@ export default {
     const leave = this.$store.state.leaves;
     this.leaves = leave;
     this.loading = false;
+    this.initialize = true;
   },
 };
 </script>

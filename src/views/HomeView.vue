@@ -21,6 +21,7 @@ export default {
     try {
       const user = await firebase.auth().currentUser;
       console.log({ user });
+      this.$router.push('/login');
     } catch (e) {
       console.log({ e });
     }

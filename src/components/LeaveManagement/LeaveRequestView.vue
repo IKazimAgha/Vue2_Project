@@ -133,6 +133,11 @@
               Submit for approval
           </v-btn>
       </v-row>
+      <v-row v-if="!!errorValue">
+        <v-card-text class="errorTextStyle">
+          {{this.errorValue}}
+        </v-card-text>
+      </v-row>
     </v-container>
   </v-card>
   </div>
@@ -197,6 +202,7 @@ export default {
         remaining: '3',
       },
     ],
+    errorValue: '',
   }),
 
   async mounted() {
@@ -216,19 +222,41 @@ export default {
       this.showCards = false;
     },
     async submitLeave() {
-      const leaveData = {
-        leave_type: this.leaveType,
-        start_date: this.date,
-        end_date: this.date2,
-        reason: this.leave_reason,
-        leave_value: 'Pending',
-        leave_nature: 'Regular',
-        users: this.users?.email,
-        assigned_to: 'Ismaeel',
-      };
-      this.$store.dispatch('addLeaves', leaveData);
-      createLeave(leaveData);
-      this.$router.push('/leave_page');
+      if (this.leaveType === '') {
+        this.errorValue = 'Please Select Leave Type';
+        return;
+      }
+      if (this.leave_reason === '') {
+        this.errorValue = 'Please Select Leave Reason';
+        return;
+      }
+      if (this.date === '') {
+        this.errorValue = 'Please Select Start Date for leave';
+        return;
+      }
+      if (this.date2 === '') {
+        this.errorValue = 'Please Select End Date for leave';
+        return;
+      }
+      if (this.errorValue !== '') {
+        try {
+          const leaveData = {
+            leave_type: this.leaveType,
+            start_date: this.date,
+            end_date: this.date2,
+            reason: this.leave_reason,
+            leave_value: 'Pending',
+            leave_nature: 'Regular',
+            users: this.users?.email,
+            assigned_to: 'Ismaeel',
+          };
+          this.$store.dispatch('addLeaves', leaveData);
+          createLeave(leaveData);
+          this.$router.push('/leave_page');
+        } catch (error) {
+          console.log({ error });
+        }
+      }
     },
   },
 };
@@ -254,5 +282,12 @@ export default {
   background: #f9fbff;
   padding: 0px 20px;
   margin: 20px 20px;
+}
+.errorTextStyle{
+    color: red;
+    font-size: 20px;
+    border: 1px solid black;
+    width: 444px;
+    margin-bottom: 40px;
 }
 </style>

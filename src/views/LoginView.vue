@@ -14,7 +14,9 @@
         <v-text-field
         v-model="email"
         label="E-mail"
+        :rules="[rules.required, rules.email]"
         required
+        :error="emailError"
         full-width
         ></v-text-field>
 
@@ -23,8 +25,9 @@
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
             name="input-10-1"
-            label="Normal with hint text"
+            label="Password"
             counter
+            :error="passowrdError"
             @click:append="show1 = !show1"
           ></v-text-field>
 
@@ -54,11 +57,27 @@ export default {
     return {
       email: '',
       password: '',
+      rules: {
+        required: (value) => !!value || 'Required.',
+        counter: (value) => value.length <= 20 || 'Max 20 characters',
+        email: (value) => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || 'Invalid e-mail.';
+        },
+      },
+      emailError: false,
+      passowrdError: false,
       show1: false,
     };
   },
   methods: {
     async login_action() {
+      if (this.password === '') {
+        this.passowrdError = true;
+      }
+      if (this.email === '') {
+        this.emailError = true;
+      }
       try {
         const user = await firebase
           .auth().signInWithEmailAndPassword(this.email, this.password);
@@ -74,6 +93,8 @@ export default {
         }
       } catch (error) {
         console.log({ error });
+        this.emailError = true;
+        this.passowrdError = true;
       }
     },
   },
